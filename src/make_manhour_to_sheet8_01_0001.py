@@ -4351,7 +4351,6 @@ def write_step11_from_step10_only(pszStep10Path: str) -> int:
             pszSecondIncubation: str = pszZeroManhour
             pszThirdIncubation: str = pszZeroManhour
             pszFourthIncubation: str = pszZeroManhour
-            pszBusinessDevelopment: str = pszZeroManhour
             bIsCompanyProject: bool = re.match(r"^C\d{3}_", str(pszProjectName)) is not None
             if not bIsCompanyProject:
                 if pszCompanyName == "第一インキュ":
@@ -4362,8 +4361,6 @@ def write_step11_from_step10_only(pszStep10Path: str) -> int:
                     pszThirdIncubation = pszTotalManhour
                 elif pszCompanyName == "第四インキュ":
                     pszFourthIncubation = pszTotalManhour
-                elif pszCompanyName == "事業開発":
-                    pszBusinessDevelopment = pszTotalManhour
             objStep11CompanyFile.write(
                 pszProjectName
                 + "\t"
@@ -4378,8 +4375,6 @@ def write_step11_from_step10_only(pszStep10Path: str) -> int:
                 + pszThirdIncubation
                 + "\t"
                 + pszFourthIncubation
-                + "\t"
-                + pszBusinessDevelopment
                 + "\n"
             )
 
@@ -4409,21 +4404,6 @@ def main() -> int:
 
     iExitCode: int = 0
     for pszInputManhourCsvPath in objArgs.pszInputManhourCsvPaths:
-        if re.search(r"_step10_各プロジェクトの工数\.tsv$", pszInputManhourCsvPath):
-            try:
-                iResult: int = write_step11_from_step10_only(pszInputManhourCsvPath)
-            except Exception as objException:
-                print(
-                    "Error: failed to process step10 input file: {0}. Detail = {1}".format(
-                        pszInputManhourCsvPath,
-                        objException,
-                    )
-                )
-                iExitCode = 1
-                continue
-            if iResult != 0:
-                iExitCode = 1
-            continue
         try:
             iResult: int = process_single_input(pszInputManhourCsvPath)
         except Exception as objException:
