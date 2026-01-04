@@ -3814,9 +3814,13 @@ def write_step11_from_step10_only(pszStep10Path: str) -> int:
                 print(f"Warning: 不正な行をスキップしました: {pszLineContent}")
                 continue
             pszProjectName: str = objColumns[0]
-            pszManhour: str = objColumns[1]
+            pszBillingCompanyFromInput: str = objColumns[1] if len(objColumns) >= 3 else ""
+            pszManhour: str = objColumns[2] if len(objColumns) >= 3 else objColumns[1]
             pszProjectCodePrefix: str = pszProjectName.split("_", 1)[0] + "_"
-            pszBillingCompany: str = objBillingMap.get(pszProjectCodePrefix, objBillingMap.get(pszProjectName, ""))
+            pszBillingCompany: str = pszBillingCompanyFromInput or objBillingMap.get(
+                pszProjectCodePrefix,
+                objBillingMap.get(pszProjectName, ""),
+            )
 
             pszFirstIncubation: str = pszZeroManhour
             pszSecondIncubation: str = pszZeroManhour
@@ -3923,9 +3927,13 @@ def write_step11_from_step10_only(pszStep10Path: str) -> int:
                 print(f"Warning: 不正な行をスキップしました: {pszLineContent}")
                 continue
             pszProjectName: str = objColumns[0]
-            pszManhour: str = objColumns[1]
+            pszBillingCompanyFromInput: str = objColumns[1] if len(objColumns) >= 3 else ""
+            pszManhour: str = objColumns[2] if len(objColumns) >= 3 else objColumns[1]
             pszProjectCodePrefix: str = pszProjectName.split("_", 1)[0] + "_"
-            pszBillingCompany: str = objBillingMap.get(pszProjectCodePrefix, objBillingMap.get(pszProjectName, ""))
+            pszBillingCompany: str = pszBillingCompanyFromInput or objBillingMap.get(
+                pszProjectCodePrefix,
+                objBillingMap.get(pszProjectName, ""),
+            )
 
             pszFirstIncubation: str = pszZeroManhour
             pszSecondIncubation: str = pszZeroManhour
